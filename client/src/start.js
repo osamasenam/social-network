@@ -1,7 +1,17 @@
 import ReactDOM from "react-dom";
+import Welcome from "./welcome.js";
 
-ReactDOM.render(<HelloWorld />, document.querySelector("main"));
+// ReactDOM.render(<Welcome />, document.querySelector("main"));
 
-function HelloWorld() {
-    return <div>Hello, World!</div>;
-}
+fetch('/user/id.json')
+    .then(response => response.json())
+    .then(data => {
+        if (!data.userId) {
+            // the user is not registered/ logged in
+            ReactDOM.render(<Welcome />, document.querySelector("main"));
+        } else {
+            // the user is registered/ logged in
+            ReactDOM.render(<img src="/logo.gif" alt="logo" />, document.querySelector("main"));
+        }
+    })
+;
