@@ -1,12 +1,19 @@
 // function component
 import { Registration } from "./registration.js";
+import { Login } from "./login.js";
+import { BrowserRouter, Route} from "react-router-dom";
 
 export default function Welcome() {
     return (
-        <div>
+        <BrowserRouter>
             <h1>Welcome!</h1>
-            <Registration />
+            <Route exact path="/">
+                <Registration />
+            </Route>
+            <Route path="/login">
+                <Login />
+            </Route>
 
-        </div>
+        </BrowserRouter>
     );
 }

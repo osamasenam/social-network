@@ -25,4 +25,16 @@ module.exports.register = (firstName, lastName, email, password) => {
                 RETURNING id`;
     const params = [firstName, lastName,  email, password];
     return db.query(q, params);  
-}
+};
+
+module.exports.getRegisterId = (email) => {
+    const q = `SELECT id FROM users WHERE email=$1`;
+    const params = [email];
+    return db.query(q, params);
+};
+
+module.exports.getHashedPw = (email) => {
+    const q = `SELECT password FROM users WHERE email=$1`;
+    const params = [email];
+    return db.query(q, params);
+};

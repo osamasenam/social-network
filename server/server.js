@@ -12,7 +12,7 @@ app.use(cookieSession({
     sameSite: true
 }));
 
-const { postRegister } = require('./middleware');
+const { postRegister, postLogin } = require('./middleware');
 
 app.use(compression());
 
@@ -33,6 +33,8 @@ app.get('/user/id.json', function (req, res) {
 });
 
 app.post("/registration.json", postRegister);
+
+app.post("/login", postLogin);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

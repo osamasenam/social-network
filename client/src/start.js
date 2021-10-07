@@ -11,7 +11,7 @@ fetch('/user/id.json')
             ReactDOM.render(<Welcome />, document.querySelector("main"));
         } else {
             // the user is registered/ logged in
-            ReactDOM.render(<img src="/logo.gif" alt="logo" />, document.querySelector("main"));
+            ReactDOM.render(<img src="logo.png" alt="logo" />, document.querySelector("main"));
         }
     })
 ;

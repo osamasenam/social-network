@@ -3,20 +3,19 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-export class Registration extends Component {
+export class Login extends Component {
     constructor() {
         super();
         this.state = {
-            counter: 0,
-            showError: false,
+            error: "",
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleRegister = this.handleRegister.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
 
     }
 
     componentDidMount() {
-        console.log("Registration just mounted");
+        console.log("Login just mounted");
     }
 
     handleChange(e) {
@@ -29,11 +28,11 @@ export class Registration extends Component {
         );
     }
 
-    handleRegister(e) {
+    handleLogin(e) {
         e.preventDefault();
-        console.log("register Btn clicked", this.state);
+        console.log("Login Btn clicked", this.state);
 
-        fetch("/registration.json", {
+        fetch("/login", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(this.state),
@@ -41,35 +40,34 @@ export class Registration extends Component {
             .then(res => res.json())
             .then((data) => {
                 console.log("data:", data);
-                if(!data.success) {
+                if(data.errMsg) {
                     this.setState({
-                        showError: true,
-                        counter: this.state.counter+1,
+                        error: data.errMsg,
                     });
 
                     console.log("this.state",this.state);
                 }
-                // once the user is registered >>> we can trigger that using location.reload()
-                location.reload();
+                // once the user is logged in >>> we can trigger that using location.reload()
+                if(data.success) {
+                    location.reload();
+                }
+                
             })
             .catch(console.log());
-        // update the error msg in state
+        // update the error msg in state for the case of fetch failure
     }
 
     render() {
         return (
             <section>
-                { this.state.showError && <h1>Error: Please register again!</h1>}
-                <h1>Registration</h1>
-                {/* <h1>counter {this.state.counter}</h1> */}
+                { this.state.error && <h1>Error: {this.state.error} </h1>}
+                <h1>Log in</h1>
                 <form>
-                    <input type="text" name="first" placeholder="first" onChange={this.handleChange}></input>
-                    <input type="text" name="last" placeholder="last" onChange={this.handleChange}></input>
                     <input type="email" name="email" placeholder="email" onChange={this.handleChange}></input>
                     <input type="password" name="password" placeholder="password" onChange={this.handleChange}></input>
-                    <button onClick={this.handleRegister}>register</button>
+                    <button onClick={this.handleLogin}>Login</button>
                 </form>
-                <Link to="/login">Already registered? Please log in</Link>
+                <Link to="/">Not registered? Please sign up</Link>
             </section>
         );    
     }
