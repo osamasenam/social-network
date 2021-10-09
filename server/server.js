@@ -12,7 +12,7 @@ app.use(cookieSession({
     sameSite: true
 }));
 
-const { postRegister, postLogin } = require('./middleware');
+const { postRegister, postLogin, postResetPassword, postSavePassword } = require('./middleware');
 
 app.use(compression());
 
@@ -25,16 +25,18 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 // client wants to know if the user is registered/ logged in
 app.get('/user/id.json', function (req, res) {
     res.json({
+        // return the user id stored in the server cookie once logged in/registered
         userId: req.session.userId
     });
-    // res.json({
-    //     userId: undefined,
-    // });
 });
 
 app.post("/registration.json", postRegister);
 
 app.post("/login", postLogin);
+
+app.post("/ResetPassword", postResetPassword);
+
+app.post("/SavePassword", postSavePassword);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

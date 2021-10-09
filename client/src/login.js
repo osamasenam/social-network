@@ -68,6 +68,8 @@ export class Login extends Component {
                     <button onClick={this.handleLogin}>Login</button>
                 </form>
                 <Link to="/">Not registered? Please sign up</Link>
+                <br></br>
+                <Link to="/ResetPassword">Forgot password? Please reset</Link>
             </section>
         );    
     }

@@ -13,6 +13,7 @@ if(process.env.DATABASE_URL) {
 } else {
     // we are running our app locally
     const { dbUserName, dbPassword} = require("./secrets.json");
+    console.log("dbUserName, dbPassword",dbUserName, dbPassword);
     db = spicedPg(
         `postgres:${dbUserName}:${dbPassword}@localhost:5432/${database}`
     );
@@ -37,4 +38,25 @@ module.exports.getHashedPw = (email) => {
     const q = `SELECT password FROM users WHERE email=$1`;
     const params = [email];
     return db.query(q, params);
+};
+
+module.exports.getSecretCode = (email, code) => {
+    const q = `INSERT INTO secretcodes (email, code) VALUES ($1, $2) 
+    RETURNING code`;
+    const params = [email, code];
+    return db.query(q, params);
+};
+
+module.exports.checkSecretCode = (email) => {
+    const q = `SELECT code FROM secretcodes 
+            WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' 
+            AND  email=$1`;
+    const params = [email];
+    return db.query(q, params);
+};
+
+module.exports.changePassword = (email, password) => {
+    const q = `UPDATE users SET password=$2 WHERE email=$1`;
+    const params = [email, password];
+    return db.query(q, params);  
 };
