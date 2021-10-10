@@ -161,3 +161,55 @@ module.exports.postSavePassword = function (req, res, next) {
         });
 
 };
+
+module.exports.getUser = function (req, res, next) {
+    db.getUserData(req.session.userId)
+        .then((data) => {
+            // send back this user's data
+            console.log("data",data.rows);
+            res.json(data.rows[0]);
+        })
+        .catch((err) => {
+            console.log("err in db.getUserData: ", err);
+            res.json({ errMsg: "Error in Database"});
+        });
+};
+
+module.exports.postProfileImage = function (req, res, next) {
+    db.postProfileImage(req)
+        .then((data) => {
+            // send back this user's data
+            console.log("data",data.rows);
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            console.log("err in db.postProfileImage: ", err);
+            res.json({ errMsg: "Error in Database"});
+        });
+};
+
+module.exports.getBio = function (req, res, next) {
+    db.getBio(req.session.userId)
+        .then((data) => {
+            // send back this user's Bio
+            console.log("data",data.rows);
+            res.json(data.rows[0]);
+        })
+        .catch((err) => {
+            console.log("err in db.getBio: ", err);
+            res.json({ errMsg: "Error in Database"});
+        });
+};
+
+module.exports.postBio = function (req, res, next) {
+    db.postBio(req)
+        .then((data) => {
+            // send back this user's data
+            console.log("data",data.rows);
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            console.log("err in db.postBio: ", err);
+            res.json({ errMsg: "Error in Database"});
+        });
+};

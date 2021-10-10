@@ -13,7 +13,7 @@ if(process.env.DATABASE_URL) {
 } else {
     // we are running our app locally
     const { dbUserName, dbPassword} = require("./secrets.json");
-    console.log("dbUserName, dbPassword",dbUserName, dbPassword);
+    // console.log("dbUserName, dbPassword",dbUserName, dbPassword);
     db = spicedPg(
         `postgres:${dbUserName}:${dbPassword}@localhost:5432/${database}`
     );
@@ -58,5 +58,29 @@ module.exports.checkSecretCode = (email) => {
 module.exports.changePassword = (email, password) => {
     const q = `UPDATE users SET password=$2 WHERE email=$1`;
     const params = [email, password];
+    return db.query(q, params);  
+};
+
+module.exports.getUserData = (id) => {
+    const q = `SELECT id,first,last,image,bio  FROM users WHERE id=$1`;
+    const params = [id];
+    return db.query(q, params);  
+};
+
+module.exports.postProfileImage = (req) => {  
+    const q = `UPDATE users SET image=$1 WHERE id=$2 RETURNING image`;
+    const params = [`https://s3.amazonaws.com/spicedling/${req.file.filename}`, req.session.userId];
+    return db.query(q, params);  
+};
+
+module.exports.getBio = (id) => {
+    const q = `SELECT bio  FROM users WHERE id=$1`;
+    const params = [id];
+    return db.query(q, params);  
+};
+
+module.exports.postBio = (req) => {  
+    const q = `UPDATE users SET bio=$1 WHERE id=$2 RETURNING bio`;
+    const params = [req.body.draftBio, req.session.userId];
     return db.query(q, params);  
 };

@@ -3,6 +3,9 @@ const app = express();
 const compression = require("compression");
 const path = require("path");
 const exp = require("constants");
+const { uploader } = require("./upload");
+const s3 = require("./s3");
+
 
 // CSRF security
 const cookieSession = require('cookie-session');
@@ -12,7 +15,10 @@ app.use(cookieSession({
     sameSite: true
 }));
 
-const { postRegister, postLogin, postResetPassword, postSavePassword } = require('./middleware');
+const { postRegister, postLogin, 
+    postResetPassword, postSavePassword, 
+    getUser, postProfileImage, 
+    getBio, postBio } = require('./middleware');
 
 app.use(compression());
 
@@ -37,6 +43,14 @@ app.post("/login", postLogin);
 app.post("/ResetPassword", postResetPassword);
 
 app.post("/SavePassword", postSavePassword);
+
+app.get("/user.json", getUser);
+
+app.post('/Uploader', uploader.single('file'), s3.upload, postProfileImage);
+
+app.get("/getBio", getBio);
+
+app.post("/postBio", postBio);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
