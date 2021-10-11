@@ -18,7 +18,8 @@ app.use(cookieSession({
 const { postRegister, postLogin, 
     postResetPassword, postSavePassword, 
     getUser, postProfileImage, 
-    getBio, postBio } = require('./middleware');
+    getBio, postBio,
+    getSearch, getLatest3 } = require('./middleware');
 
 app.use(compression());
 
@@ -51,6 +52,9 @@ app.post('/Uploader', uploader.single('file'), s3.upload, postProfileImage);
 app.get("/getBio", getBio);
 
 app.post("/postBio", postBio);
+
+app.get("/find-people/:search", getSearch);
+
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

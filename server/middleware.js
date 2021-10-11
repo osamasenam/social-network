@@ -213,3 +213,33 @@ module.exports.postBio = function (req, res, next) {
             res.json({ errMsg: "Error in Database"});
         });
 };
+
+module.exports.getSearch = function (req, res, next) {
+    console.log("req.params.search", req.params.search);
+
+    if(req.params.search=== 'latest3') {
+        console.log("inside getLatest3...");
+        db.getLatest3()
+            .then((data) => {
+            // send back this user's Bio
+                console.log("data",data.rows);
+                res.json(data.rows);
+            })
+            .catch((err) => {
+                console.log("err in db.getLatest3: ", err);
+                res.json({ errMsg: "Error in Database"});
+            });
+    } else {
+        console.log("inside getsearch...");
+        db.getSearch(req.params.search)
+            .then((data) => {
+            // send back this user's Bio
+            // console.log("data",data.rows);
+                res.json(data.rows);
+            })
+            .catch((err) => {
+                console.log("err in db.getSearch: ", err);
+                res.json({ errMsg: "Error in Database"});
+            });
+    }
+};

@@ -2,6 +2,9 @@ import { Component } from "react";
 import ProfilePic from "./profilepic.js";
 import Uploader from "./uploader.js";
 import Profile from "./profile.js";
+import FindPeople from "./findpeople.js";
+
+import { BrowserRouter, Route} from "react-router-dom";
 
 export default class App extends Component {
     constructor() {
@@ -37,62 +40,70 @@ export default class App extends Component {
             ); 
         } else {
             return(
-                <>
-                    <img src="logo.png" alt="logo" />
-                    <ProfilePic 
-                        imgUrl={this.state.image} 
-                        first={this.state.first}
-                        last={this.state.last}
-                        clickHandler= {
-                            ()=> {
-                                this.setState({
-                                    "uploaderIsVisible": true
-                                });
-                                console.log("profilepic clicked");
+                <BrowserRouter>
+                    <>
+                        <img src="logo.png" alt="logo" />
+                        <ProfilePic 
+                            imgUrl={this.state.image} 
+                            first={this.state.first}
+                            last={this.state.last}
+                            clickHandler= {
+                                ()=> {
+                                    this.setState({
+                                        "uploaderIsVisible": true
+                                    });
+                                    console.log("profilepic clicked");
+                                }
                             }
-                        }
-                    />
+                        />
 
-                    <Profile 
-                        imgUrl={this.state.image} 
-                        first={this.state.first}
-                        last={this.state.last}
-                        bio={this.state.bio}
-                        setBio={
-                            (latestBio)=> {
-                                
-                                this.setState({
-                                    "bio": latestBio
-                                });
-                                console.log("Bio used",latestBio);
-                                console.log("App this.state",this.state);
-                            }
-                        }
-                    />
+                        <Route exact path="/">
+                            <Profile 
+                                imgUrl={this.state.image} 
+                                first={this.state.first}
+                                last={this.state.last}
+                                bio={this.state.bio}
+                                setBio={
+                                    (latestBio)=> {
+                                    
+                                        this.setState({
+                                            "bio": latestBio
+                                        });
+                                        console.log("Bio used",latestBio);
+                                        console.log("App this.state",this.state);
+                                    }
+                                }
+                            />
+                        </Route>
 
-                    {this.state.uploaderIsVisible && (<Uploader 
-                        first={this.state.first}
-                        closeModal= {
-                            ()=> {
-                                this.setState({
-                                    "uploaderIsVisible": false
-                                });
-                                console.log("close Modal");
+                        <Route path="/find-people">
+                            <FindPeople />
+                        </Route>
+
+                        {this.state.uploaderIsVisible && (<Uploader 
+                            first={this.state.first}
+                            closeModal= {
+                                ()=> {
+                                    this.setState({
+                                        "uploaderIsVisible": false
+                                    });
+                                    console.log("close Modal");
                                 // console.log("ImgUrl updated", this.state.image);
+                                }
                             }
-                        }
-                        updateImgUrl= {
-                            (newUrl)=> {
-                                
-                                this.setState({
-                                    "image": newUrl
-                                });
-                                console.log("newUrl used",newUrl);
-                                console.log("this.state",this.state);
+                            updateImgUrl= {
+                                (newUrl)=> {
+                                    console.log(newUrl);
+                                    this.setState({
+                                        "image": newUrl.image
+                                    });
+                                    console.log("newUrl used",newUrl);
+                                    console.log("this.state",this.state);
+                                }
                             }
-                        }
-                    />)}
-                </>
+                        />)}
+                    </>
+                </BrowserRouter>
             );
         }
         

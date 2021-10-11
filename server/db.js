@@ -84,3 +84,16 @@ module.exports.postBio = (req) => {
     const params = [req.body.draftBio, req.session.userId];
     return db.query(q, params);  
 };
+
+module.exports.getSearch = (search) => {
+    const q = `SELECT id,first,last,image,bio FROM users 
+                WHERE first ILIKE $1 OR last ILIKE $1`;
+    const params = [search + '%'];
+    return db.query(q, params);  
+};
+
+module.exports.getLatest3 = () => {
+    const q = `SELECT id,first,last,image,bio FROM users 
+            ORDER BY id DESC LIMIT 3`;
+    return db.query(q);  
+};
