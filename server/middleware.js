@@ -243,3 +243,20 @@ module.exports.getSearch = function (req, res, next) {
             });
     }
 };
+
+module.exports.getClickedUser = function (req, res, next) {
+    if(req.params.id == req.session.userId) {
+        res.json({errMsg: "sameprofile"});
+    } else {
+        db.getUserData(req.params.id)
+            .then((data) => {
+                // send back this user's data
+                // console.log("data",data.rows);
+                res.json(data.rows[0]);
+            })
+            .catch((err) => {
+                console.log("err in db.getUserData: ", err);
+                res.json({ errMsg: "Error in Database"});
+            });
+    }
+};

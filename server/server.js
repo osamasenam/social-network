@@ -19,7 +19,7 @@ const { postRegister, postLogin,
     postResetPassword, postSavePassword, 
     getUser, postProfileImage, 
     getBio, postBio,
-    getSearch, getLatest3 } = require('./middleware');
+    getSearch, getClickedUser } = require('./middleware');
 
 app.use(compression());
 
@@ -55,6 +55,7 @@ app.post("/postBio", postBio);
 
 app.get("/find-people/:search", getSearch);
 
+app.get("/user/:id.json", getClickedUser);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

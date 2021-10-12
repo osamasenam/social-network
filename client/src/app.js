@@ -3,6 +3,7 @@ import ProfilePic from "./profilepic.js";
 import Uploader from "./uploader.js";
 import Profile from "./profile.js";
 import FindPeople from "./findpeople.js";
+import OtherProfile from "./otherprofile.js";
 
 import { BrowserRouter, Route} from "react-router-dom";
 
@@ -42,7 +43,7 @@ export default class App extends Component {
             return(
                 <BrowserRouter>
                     <>
-                        <img src="logo.png" alt="logo" />
+                        <img src="/logo.png" alt="logo" />
                         <ProfilePic 
                             imgUrl={this.state.image} 
                             first={this.state.first}
@@ -78,6 +79,10 @@ export default class App extends Component {
 
                         <Route path="/find-people">
                             <FindPeople />
+                        </Route>
+
+                        <Route path="/user/:otherUserId">
+                            <OtherProfile />
                         </Route>
 
                         {this.state.uploaderIsVisible && (<Uploader 

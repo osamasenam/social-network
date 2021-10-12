@@ -1,5 +1,6 @@
 import ProfilePic from "./profilepic.js";
 import BioEditor from "./bioeditor.js";
+import { Link } from "react-router-dom";
 
 export default function Profile(props) {
     console.log("Profile props", props);
@@ -17,6 +18,9 @@ export default function Profile(props) {
                 bio={props.bio}
                 setBio={props.setBio}
             />
+
+            <Link to="/find-people">Find other friends</Link>
+
         </div>
     );
 }

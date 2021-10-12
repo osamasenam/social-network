@@ -39,7 +39,7 @@ export default function FindPeople() {
             <h1>Here you can search for people...</h1>
             <input type="text" onChange={(e) => setSearchTerm(e.target.value)} />
             {users && users.map((user, i) => (
-                <Link to={`user/${user.id}`} key={i}>
+                <Link to={`/user/${user.id}`} key={i}>
                     <p >{user.first}</p>
                     <img src={user.image} />
                 </Link>
