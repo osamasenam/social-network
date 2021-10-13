@@ -19,7 +19,8 @@ const { postRegister, postLogin,
     postResetPassword, postSavePassword, 
     getUser, postProfileImage, 
     getBio, postBio,
-    getSearch, getClickedUser } = require('./middleware');
+    getSearch, getClickedUser,
+    getFriendshipStatus, postFriendshipStatus } = require('./middleware');
 
 app.use(compression());
 
@@ -56,6 +57,10 @@ app.post("/postBio", postBio);
 app.get("/find-people/:search", getSearch);
 
 app.get("/user/:id.json", getClickedUser);
+
+app.get("/getFriendship/:other", getFriendshipStatus);
+
+app.post("/getFriendship/:other", postFriendshipStatus);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

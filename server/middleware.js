@@ -260,3 +260,87 @@ module.exports.getClickedUser = function (req, res, next) {
             });
     }
 };
+
+module.exports.getFriendshipStatus = function (req, res, next) {
+    console.log("getFriendshipStatus");
+
+    const otherUser = req.params.other;
+    const loggedUser = req.session.userId;
+    
+    db.getFriendshipStatus(otherUser, loggedUser)
+        .then((data) => {
+            console.log("data",data.rows[0]);
+            if(!data.rows[0]) {
+                console.log("empty data");
+                res.json({btnText: "Make Friend Request"});
+            } else if(data.rows[0].accepted == true) {
+                console.log("friendship already exists");
+                res.json({btnText: "End Friendship"});
+            } else if(data.rows[0].accepted == false && data.rows[0].sender_id == loggedUser) {
+                console.log("logged in user already sent a friend request");
+                res.json({btnText: "Cancel Friend Request"});
+            } else if(data.rows[0].accepted == false && data.rows[0].sender_id == otherUser) {
+                console.log("logged in user already received a friend request");
+                res.json({btnText: "Accept Friend Request"});
+            }
+        })
+        .catch((err) => {
+            console.log("err in db.getUserData: ", err);
+        });
+};
+
+module.exports.postFriendshipStatus = function (req, res, next) {
+    console.log("getFriendshipStatus", req.body);
+
+    const otherUser = req.params.other;
+    const loggedUser = req.session.userId;
+    const text = req.body.text;
+
+    if(text == "Make Friend Request") {
+        // then update db with Request sent (accepted = false) & (sender = logged user || other user)
+        const requestSent = false;
+        db.postFriendshipStatus1(loggedUser,otherUser, requestSent)
+            .then((data) => {
+                console.log("friendships table updated",data.rows[0]);
+                res.json({btnText: "Cancel Friend Request"});
+
+            })
+            .catch((err) => {
+                console.log("err in db.getUserData: ", err);
+            });
+    } else if(text == "Cancel Friend Request") {
+        // then update db with no relationship (delete accepted row) & (sender = logged user)
+        db.deleteFriendshipStatus(loggedUser,otherUser)
+            .then((data) => {
+                console.log("friendships table updated",data.rows[0]);
+                res.json({btnText: "Make Friend Request"});
+
+            })
+            .catch((err) => {
+                console.log("err in db.getUserData: ", err);
+            });
+    } else if(text == "Accept Friend Request") {
+        // then update db with Request sent (accepted = true) & (receiver = logged user)
+        const requestSent = true;
+        db.postFriendshipStatus2(otherUser, loggedUser, requestSent)
+            .then((data) => {
+                console.log("friendships table updated",data.rows[0]);
+                res.json({btnText: "End Friendship"});
+
+            })
+            .catch((err) => {
+                console.log("err in db.getUserData: ", err);
+            });
+    } else if(text == "End Friendship") {
+        // then update db with no relationship (delete accepted row) & (sender = logged user || other user)
+        db.deleteFriendshipStatus(loggedUser,otherUser)
+            .then((data) => {
+                console.log("friendships table updated",data.rows[0]);
+                res.json({btnText: "Make Friend Request"});
+
+            })
+            .catch((err) => {
+                console.log("err in db.getUserData: ", err);
+            });
+    }
+};

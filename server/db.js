@@ -97,3 +97,32 @@ module.exports.getLatest3 = () => {
             ORDER BY id DESC LIMIT 3`;
     return db.query(q);  
 };
+
+module.exports.getFriendshipStatus = (otherUser, loggedUser) => {
+    const q = `SELECT * FROM friendships
+            WHERE (recipient_id = $1 AND sender_id = $2)
+            OR (recipient_id = $2 AND sender_id = $1);`;
+    const params = [otherUser, loggedUser];
+    return db.query(q, params);  
+};
+
+module.exports.postFriendshipStatus1 = (sender,recipient, accepted) => {
+    const q = `INSERT INTO friendships (sender_id, recipient_id, accepted)
+    VALUES($1,$2,$3) 
+    `;
+    const params = [sender,recipient, accepted];
+    return db.query(q, params);  
+};
+
+module.exports.postFriendshipStatus2 = (sender,recipient, accepted) => {
+    const q = `UPDATE friendships SET accepted = $2 WHERE sender_id  = $1`;
+    const params = [sender, accepted];
+    return db.query(q, params);  
+};
+
+module.exports.deleteFriendshipStatus = (sender,recipient) => {
+    const q = `DELETE FROM  friendships
+    WHERE sender_id  = $1`;
+    const params = [sender];
+    return db.query(q, params);  
+};

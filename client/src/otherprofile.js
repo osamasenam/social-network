@@ -1,5 +1,7 @@
 import { useParams, useHistory } from "react-router";
 import { useState, useEffect } from 'react';
+import FriendButton from "./friendbutton.js";
+
 
 export default function OtherProfile(props) {
     const { otherUserId } = useParams();
@@ -40,6 +42,9 @@ export default function OtherProfile(props) {
                     <h2>{user.first} {user.last}</h2>
                     <img src={user.image}></img>
                     <h3>{user.bio}</h3>
+                    <FriendButton 
+                        other = {otherUserId}
+                    />
                 </>
             )}
             {error && (

@@ -49,7 +49,7 @@ export class Login extends Component {
                 }
                 // once the user is logged in >>> we can trigger that using location.reload()
                 if(data.success) {
-                    location.reload();
+                    location.replace("/");
                 }
                 
             })
