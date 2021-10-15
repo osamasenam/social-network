@@ -70,21 +70,21 @@ export default class BioEditor extends Component {
                 {this.state.showTextArea && (
                     <div>
                         <h2>Edit your Bio</h2>
-                        <textarea cols="30" rows="10" onChange={this.draftBioHandler}></textarea>
+                        <textarea id="bioInput" cols="30" rows="10" onChange={this.draftBioHandler}></textarea>
                         <br></br>
-                        <button onClick={this.submitHandler}>Submit</button>
+                        <button id="submit" onClick={this.submitHandler}>Submit</button>
                     </div>
                 )}
 
                 {!this.state.showTextArea && this.props.bio && (
                     <div>
-                        <h2>Latest Update: {this.props.bio}</h2>
+                        <h2 id="updatedBio">Latest Update: {this.props.bio}</h2>
                     </div>
                 )}
 
                 {!this.state.showTextArea && (
                     <div>
-                        <button onClick={  () => {
+                        <button id="add" onClick={  () => {
                             this.setState({
                                 "showTextArea": true
                             });}
