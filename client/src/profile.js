@@ -21,6 +21,10 @@ export default function Profile(props) {
 
             <Link to="/find-people">Find other friends</Link>
 
+            <br></br>
+
+            <Link to="/friendsList">Friends</Link>
+
         </div>
     );
 }

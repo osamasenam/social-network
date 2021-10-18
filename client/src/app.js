@@ -4,6 +4,7 @@ import Uploader from "./uploader.js";
 import Profile from "./profile.js";
 import FindPeople from "./findpeople.js";
 import OtherProfile from "./otherprofile.js";
+import Friends from "./friends.js";
 
 import { BrowserRouter, Route} from "react-router-dom";
 
@@ -79,6 +80,10 @@ export default class App extends Component {
 
                         <Route path="/find-people">
                             <FindPeople />
+                        </Route>
+
+                        <Route path="/friendsList">
+                            <Friends />
                         </Route>
 
                         <Route path="/user/:otherUserId">

@@ -344,3 +344,18 @@ module.exports.postFriendshipStatus = function (req, res, next) {
             });
     }
 };
+
+module.exports.getFriends = function (req, res, next) {
+    console.log("getFriends");
+
+    const loggedUser = req.session.userId;
+    
+    db.getFriends(loggedUser)
+        .then((data) => {
+            console.log("getFriends data",data.rows);
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            console.log("err in db.getFriends: ", err);
+        });
+};
