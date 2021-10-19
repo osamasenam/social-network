@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from "react-redux";
+// import { receivedFriends } from "./redux/friends/slice.js";
 
 
 export default function FriendButton(props) {
+    // const dispatch = useDispatch();
+
     const [text, setText] = useState();
 
     useEffect(() => {
@@ -29,11 +33,23 @@ export default function FriendButton(props) {
             .then(res => res.json())
             .then((results) => {
                 console.log("results:", results);
+                // updateReduxState();
                 setText(results.btnText);
+                
             })
             .catch(console.log());
         
     }
+
+    // function updateReduxState() {
+    //     (async () => {
+    //         const data = await fetch('/friends').then(res => res.json());
+    //         console.log("updated friends",data);
+    //         dispatch(receivedFriends(data));
+
+    //     })();
+    // }
+
     return(
         <button onClick={btnClickHandler}>{text}</button>
     );

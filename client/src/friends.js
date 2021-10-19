@@ -1,6 +1,6 @@
 import {  useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { receivedFriends } from "./redux/friends/slice.js";
+import { receivedFriends, addFriend, removeFriend } from "./redux/friends/slice.js";
 import { Link } from "react-router-dom";
 
 
@@ -32,26 +32,66 @@ export default function Friends() {
         })();
     }, []);
 
+    function addFriendHandler(id) {
+        console.log("addFriendHandler clicked");
 
+        fetch(`/addFriend/${id}`, {
+            method: "POST",
+        })
+            .then(res => res.json())
+            .then((results) => {
+                console.log("results:", results);
+                // if success >>> dispatch new action to add friend to status
+                if(results.success) {
+                    dispatch(addFriend(id));
+                }
+            })
+            .catch(console.log());
+    }
+
+    function removeFriendHandler(id) {
+        console.log("removeFriendHandler clicked");
+
+        fetch(`/removeFriend/${id}`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+        })
+            .then(res => res.json())
+            .then((results) => {
+                console.log("results:", results);
+                // if success >>> dispatch new action to remove friend from status
+                if(results.success) {
+                    dispatch(removeFriend(id));
+                }
+            })
+            .catch(console.log());
+    }
     return(
         <>
             <div className="wannabeFriends">
                 <h3>These people want to be your friends</h3>
                 {wannabeFriends && wannabeFriends.map((friend, i) => (
-                    <Link to={`/user/${friend.id}`} key={i}>
-                        <p >{friend.first}</p>
-                        <img src={friend.image} />
-                    </Link>
-                        
+                    <div key={i}>
+                        <Link to={`/user/${friend.id}`}>
+                            <p >{friend.first}</p>
+                            <img src={friend.image} />
+                        </Link>
+                        <br></br>
+                        <button onClick={() => addFriendHandler(friend.id)}>Accept Friend Request</button> 
+                    </div>  
                 ))}
             </div>
             <div className="currentFriends">
                 <h3>These people are currently your friends</h3>
                 {currentFriends && currentFriends.map((friend, i) => (
-                    <Link to={`/user/${friend.id}`} key={i}>
-                        <p >{friend.first}</p>
-                        <img src={friend.image} />
-                    </Link>
+                    <div key={i}>
+                        <Link to={`/user/${friend.id}`}>
+                            <p >{friend.first}</p>
+                            <img src={friend.image} />
+                        </Link>
+                        <br></br>
+                        <button onClick={() => removeFriendHandler(friend.id)}>End Friendship</button> 
+                    </div>
                 ))}
             </div>
         </>

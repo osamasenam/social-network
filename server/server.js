@@ -21,7 +21,7 @@ const { postRegister, postLogin,
     getBio, postBio,
     getSearch, getClickedUser,
     getFriendshipStatus, postFriendshipStatus,
-    getFriends } = require('./middleware');
+    getFriends, addFriend, removeFriend } = require('./middleware');
 
 app.use(compression());
 
@@ -64,6 +64,8 @@ app.get("/getFriendship/:other", getFriendshipStatus);
 app.post("/getFriendship/:other", postFriendshipStatus);
 
 app.get("/friends", getFriends);
+app.post("/addFriend/:id", addFriend);
+app.post("/removeFriend/:id", removeFriend);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

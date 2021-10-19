@@ -359,3 +359,39 @@ module.exports.getFriends = function (req, res, next) {
             console.log("err in db.getFriends: ", err);
         });
 };
+
+module.exports.addFriend = function (req, res, next) {
+
+    const otherUser = req.params.id;
+    const loggedUser = req.session.userId;
+    
+    // then update db with Request sent (accepted = true) & (receiver = logged user)
+    const requestSent = true;
+    db.postFriendshipStatus2(otherUser, loggedUser, requestSent)
+        .then((data) => {
+            console.log("friendships table updated",data.rows[0]);
+            res.json({success: true});
+
+        })
+        .catch((err) => {
+            console.log("err in db.postFriendshipStatus2: ", err);
+        });
+};
+
+module.exports.removeFriend = function (req, res, next) {
+    
+
+    const otherUser = req.params.id;
+    const loggedUser = req.session.userId;
+    console.log("server removing...",loggedUser,otherUser);
+    // then update db with no relationship (delete accepted row) & (sender = logged user || other user)
+    db.deleteFriend(loggedUser,otherUser)
+        .then((data) => {
+            console.log("friendships table updated",data.rows[0]);
+            res.json({success: true});
+
+        })
+        .catch((err) => {
+            console.log("err in db.deleteFriendshipStatus: ", err);
+        });
+};

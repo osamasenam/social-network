@@ -115,8 +115,8 @@ module.exports.postFriendshipStatus1 = (sender,recipient, accepted) => {
 };
 
 module.exports.postFriendshipStatus2 = (sender,recipient, accepted) => {
-    const q = `UPDATE friendships SET accepted = $2 WHERE sender_id  = $1`;
-    const params = [sender, accepted];
+    const q = `UPDATE friendships SET accepted = $3 WHERE sender_id  = $1 AND recipient_id = $2`;
+    const params = [sender,recipient, accepted];
     return db.query(q, params);  
 };
 
@@ -135,5 +135,19 @@ module.exports.getFriends = (loggedUser) => {
             OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
             OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
     const params = [loggedUser];
+    return db.query(q, params);  
+};
+
+// module.exports.addFriend = (sender,recipient, accepted) => {
+//     const q = `UPDATE friendships SET accepted = $3 WHERE sender_id  = $1 AND recipient_id = $2`;
+//     const params = [sender, recipient,accepted];
+//     return db.query(q, params);  
+// };
+
+module.exports.deleteFriend = (sender,recipient) => {
+    const q = `DELETE FROM  friendships
+    WHERE (sender_id  = $1 AND recipient_id = $2)
+    OR (sender_id  = $2 AND recipient_id = $1)`;
+    const params = [sender, recipient];
     return db.query(q, params);  
 };

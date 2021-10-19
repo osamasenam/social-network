@@ -3,31 +3,23 @@ export default function friendsReducer(state = null, action) {
         console.log("action.payload",action.payload);
         state = action.payload.friends;
     } 
-    // else if (action.type == "user/madeHot") {
-    //     state = state.map(user => {
-    //         if(user.id === action.payload.id) {
-    //             return {
-    //                 ...user,
-    //                 hot: true
-    //             };
+    else if (action.type == "friends/addFriend") {
+        console.log("adding...");
+        state = state.map(friend => {
+            if(friend.id === action.payload.id) {
+                return {
+                    ...friend,
+                    accepted: true
+                };
                 
-    //         } else {
-    //             return user;
-    //         }
-    //     });
-    // } else if (action.type == "user/madeNot") {
-    //     state = state.map(user => {
-    //         if(user.id === action.payload.id) {
-    //             return {
-    //                 ...user,
-    //                 hot: false
-    //             };
-                
-    //         } else {
-    //             return user;
-    //         }
-    //     });
-    // }
+            } else {
+                return friend;
+            }
+        });
+    } else if (action.type == "friends/removeFriend") {
+        console.log("removing...");
+        state = state.filter(friend => friend.id !== action.payload.id);
+    }
     return state;
 }
 
@@ -40,18 +32,18 @@ export function receivedFriends(friends) {
     };
 }
 
-// export function madeHot(id) {
-//     console.log("action creator madeHot", id);
-//     return {
-//         type: "user/madeHot",
-//         payload: { id },
-//     };
-// }
+export function addFriend(id) {
+    console.log("action creator addFriend", id);
+    return {
+        type: "friends/addFriend",
+        payload: { id },
+    };
+}
 
-// export function madeNot(id) {
-//     console.log("action creator madeNot", id);
-//     return {
-//         type: "user/madeNot",
-//         payload: { id },
-//     };
-// }
+export function removeFriend(id) {
+    console.log("action creator removeFriend", id);
+    return {
+        type: "friends/removeFriend",
+        payload: { id },
+    };
+}
