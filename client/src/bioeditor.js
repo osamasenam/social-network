@@ -15,7 +15,7 @@ export default class BioEditor extends Component {
     }
 
     componentDidMount() {
-        console.log("BioEditor component is mounted",this.props);
+        // console.log("BioEditor component is mounted",this.props);
 
         // check if Bio exists in db
         // bio is passed always from the top App downwards

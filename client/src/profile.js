@@ -3,7 +3,7 @@ import BioEditor from "./bioeditor.js";
 import { Link } from "react-router-dom";
 
 export default function Profile(props) {
-    console.log("Profile props", props);
+    // console.log("Profile props", props);
     return(
         <div className="container">
             <h1>{props.first} {props.last} Profile </h1>
@@ -19,11 +19,12 @@ export default function Profile(props) {
                 setBio={props.setBio}
             />
 
-            <Link to="/find-people">Find other friends</Link>
-
-            <br></br>
-
-            <Link to="/friendsList">Friends</Link>
+            <ul className="nav-bar">
+                <li><a href="/friendsList">My Friends</a></li>
+                <li><a href="/find-people">Find other friends</a></li>
+                <li><a href="/chat">Chat</a></li>
+            </ul>
+            
 
         </div>
     );

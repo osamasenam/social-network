@@ -5,7 +5,7 @@ const { sendEmail } = require("./ses.js");
 
 
 module.exports.postRegister = function (req, res, next) {
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     const firstName = req.body.first;
     const lastName = req.body.last;
     const email = req.body.email;
@@ -35,7 +35,7 @@ module.exports.postRegister = function (req, res, next) {
 };
 
 module.exports.postLogin = function (req, res, next) {
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     const email = req.body.email;
     const password = req.body.password;
 
@@ -80,19 +80,19 @@ module.exports.postResetPassword = function (req, res, next) {
 
     db.getRegisterId(email)
         .then((data) => {
-            console.log("getRegisterId",data.rows);
+            // console.log("getRegisterId",data.rows);
             if(data.rows.length === 1) {
                 //this email exists
-                console.log("data", data);
-                console.log("email", email);
+                // console.log("data", data);
+                // console.log("email", email);
                 // generate a random code
                 const secretCode = cryptoRandomString({
                     length: 6
                 });
-                console.log("secretCode", secretCode);
+                // console.log("secretCode", secretCode);
                 db.getSecretCode(email, secretCode)
                     .then((data) => {
-                        console.log("data", data.rows[0]);
+                        // console.log("data", data.rows[0]);
                         const toAddress = 'summer.burglar@spicedling.email';
                         const subject = 'reset password';
                         const text = 'your security code will expire after 10 mins: '+ data.rows[0].code;
@@ -129,7 +129,7 @@ module.exports.postSavePassword = function (req, res, next) {
 
     db.checkSecretCode(email)
         .then((data) => {
-            console.log("checkSecretCode",data.rows);
+            // console.log("checkSecretCode",data.rows);
             if(data.rows[0].code === code) {
             //correct secret code was used
             // new password can be saved in database
@@ -166,7 +166,7 @@ module.exports.getUser = function (req, res, next) {
     db.getUserData(req.session.userId)
         .then((data) => {
             // send back this user's data
-            console.log("data",data.rows);
+            // console.log("data",data.rows);
             res.json(data.rows[0]);
         })
         .catch((err) => {
@@ -179,7 +179,7 @@ module.exports.postProfileImage = function (req, res, next) {
     db.postProfileImage(req)
         .then((data) => {
             // send back this user's data
-            console.log("data",data.rows);
+            // console.log("data",data.rows);
             res.json(data.rows);
         })
         .catch((err) => {
@@ -205,7 +205,7 @@ module.exports.postBio = function (req, res, next) {
     db.postBio(req)
         .then((data) => {
             // send back this user's data
-            console.log("data",data.rows);
+            // console.log("data",data.rows);
             res.json(data.rows);
         })
         .catch((err) => {
@@ -215,14 +215,14 @@ module.exports.postBio = function (req, res, next) {
 };
 
 module.exports.getSearch = function (req, res, next) {
-    console.log("req.params.search", req.params.search);
+    // console.log("req.params.search", req.params.search);
 
     if(req.params.search=== 'latest3') {
         console.log("inside getLatest3...");
         db.getLatest3()
             .then((data) => {
             // send back this user's Bio
-                console.log("data",data.rows);
+                // console.log("data",data.rows);
                 res.json(data.rows);
             })
             .catch((err) => {
@@ -269,7 +269,7 @@ module.exports.getFriendshipStatus = function (req, res, next) {
     
     db.getFriendshipStatus(otherUser, loggedUser)
         .then((data) => {
-            console.log("data",data.rows[0]);
+            // console.log("data",data.rows[0]);
             if(!data.rows[0]) {
                 console.log("empty data");
                 res.json({btnText: "Make Friend Request"});
@@ -335,7 +335,7 @@ module.exports.postFriendshipStatus = function (req, res, next) {
         // then update db with no relationship (delete accepted row) & (sender = logged user || other user)
         db.deleteFriendshipStatus(loggedUser,otherUser)
             .then((data) => {
-                console.log("friendships table updated",data.rows[0]);
+                // console.log("friendships table updated",data.rows[0]);
                 res.json({btnText: "Make Friend Request"});
 
             })
@@ -352,7 +352,7 @@ module.exports.getFriends = function (req, res, next) {
     
     db.getFriends(loggedUser)
         .then((data) => {
-            console.log("getFriends data",data.rows);
+            // console.log("getFriends data",data.rows);
             res.json(data.rows);
         })
         .catch((err) => {

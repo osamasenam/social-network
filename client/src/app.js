@@ -5,6 +5,8 @@ import Profile from "./profile.js";
 import FindPeople from "./findpeople.js";
 import OtherProfile from "./otherprofile.js";
 import Friends from "./friends.js";
+import Chat from "./chat.js";
+
 
 import { BrowserRouter, Route} from "react-router-dom";
 
@@ -23,7 +25,7 @@ export default class App extends Component {
             .then(data => {
                 data.image = data.image || "./default.jpg";
                 this.setState(data);
-                console.log("App state", this.state);
+                // console.log("App state", this.state);
             })
             .catch(console.log());
     }
@@ -71,8 +73,8 @@ export default class App extends Component {
                                         this.setState({
                                             "bio": latestBio
                                         });
-                                        console.log("Bio used",latestBio);
-                                        console.log("App this.state",this.state);
+                                        // console.log("Bio used",latestBio);
+                                        // console.log("App this.state",this.state);
                                     }
                                 }
                             />
@@ -90,6 +92,10 @@ export default class App extends Component {
                             <OtherProfile />
                         </Route>
 
+                        <Route path="/chat">
+                            <Chat />
+                        </Route>
+
                         {this.state.uploaderIsVisible && (<Uploader 
                             first={this.state.first}
                             closeModal= {
@@ -103,12 +109,12 @@ export default class App extends Component {
                             }
                             updateImgUrl= {
                                 (newUrl)=> {
-                                    console.log(newUrl);
+                                    // console.log(newUrl);
                                     this.setState({
                                         "image": newUrl.image
                                     });
-                                    console.log("newUrl used",newUrl);
-                                    console.log("this.state",this.state);
+                                    // console.log("newUrl used",newUrl);
+                                    // console.log("this.state",this.state);
                                 }
                             }
                         />)}

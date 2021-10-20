@@ -6,14 +6,31 @@ const exp = require("constants");
 const { uploader } = require("./upload");
 const s3 = require("./s3");
 
+const server = require('http').Server(app);
+const io = require('socket.io')(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000"))
+});
 
-// CSRF security
+
+// // CSRF security
+// const cookieSession = require('cookie-session');
+// app.use(cookieSession({
+//     secret: `I'm always angry.`,
+//     maxAge: 1000 * 60 * 60 * 24 * 14,
+//     sameSite: true
+// }));
+
 const cookieSession = require('cookie-session');
-app.use(cookieSession({
+const cookieSessionMiddleware = cookieSession({
     secret: `I'm always angry.`,
-    maxAge: 1000 * 60 * 60 * 24 * 14,
-    sameSite: true
-}));
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 const { postRegister, postLogin, 
     postResetPassword, postSavePassword, 
@@ -71,6 +88,54 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+
+io.on('connection', (socket) => {
+
+    const userId = socket.request.session.userId;
+
+    if (!userId) {
+        return socket.disconnect(true);
+    }
+
+    console.log(`socket.request.session`, socket.request.session);
+    console.log(`User with the ID ${socket.id} just connected`);
+
+    socket.emit('greeting', {
+        message: 'Hello from the server!'
+    });
+
+    const lastTenMsgs = [{
+        sender: "user1",
+        text: "msg1"
+    },{
+        sender: "user2",
+        text: "msg2"
+    }];
+
+    io.sockets.emit('mostRecentMsgs', lastTenMsgs);
+
+    socket.on('thanks', (data) => {
+        console.log('data: ', data);
+        // this goes to every user including you
+        io.emit('helloAll', {
+            welcomeMessage: `Hey, everyone, user ${socket.id} just sent some data: ${data.info[0]}`
+        });
+        // this goes to everyone except you
+        socket.broadcast.emit('message', 'THIS GOES TO EVERYONE EXCEPT ME!');
+        // // goes only to one user
+        // io.to(otherUserId).emit('message', 'This is a private message only for you');
+        // // emit to everyone except one user
+        // io.sockets.sockets.get(otherUserId).broadcast.emit('message', {
+        //     text: 'Oh my days Bob is so annoying'
+        // });
+
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`User with the ID ${socket.id} just disconnected`);
+    });
+});
+
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });

@@ -39,3 +39,26 @@ body {
     padding: 20px;
     
 }
+
+.nav-bar {
+    list-style-type: none;
+    margin-top: 20px;
+    padding: 0;
+    background-color:aquamarine ;
+}
+
+.nav-bar li {
+    display: inline;
+    margin-right: 5%;
+    background-color: blanchedalmond;
+    color: black;
+    font-weight: 600;
+  }
+
+.nav-bar li a {
+    text-decoration: none;
+  }
+
+.nav-bar li a:hover {
+    background-color:cadetblue;
+  }
