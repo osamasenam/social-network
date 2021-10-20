@@ -38,7 +38,8 @@ const { postRegister, postLogin,
     getBio, postBio,
     getSearch, getClickedUser,
     getFriendshipStatus, postFriendshipStatus,
-    getFriends, addFriend, removeFriend } = require('./middleware');
+    getFriends, addFriend, removeFriend,
+    getLastTenMsgs, postNewMsg } = require('./middleware');
 
 app.use(compression());
 
@@ -89,7 +90,7 @@ app.get("*", function (req, res) {
 });
 
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
 
     const userId = socket.request.session.userId;
 
@@ -100,35 +101,29 @@ io.on('connection', (socket) => {
     console.log(`socket.request.session`, socket.request.session);
     console.log(`User with the ID ${socket.id} just connected`);
 
+    // emit only 1 time to the newest client got connected 
     socket.emit('greeting', {
         message: 'Hello from the server!'
     });
 
-    const lastTenMsgs = [{
-        sender: "user1",
-        text: "msg1"
-    },{
-        sender: "user2",
-        text: "msg2"
-    }];
-
+    
+    const lastTenMsgs = await getLastTenMsgs();
+    // console.log("lastTenMsgs", lastTenMsgs);
+    // emit to all the clients/sockets already connected 
     io.sockets.emit('mostRecentMsgs', lastTenMsgs);
+        
+    // listening to the new message sent by a client
+    socket.on("my new chat message", async (newMsg) => {
+        // console.log("This message is coming in from chat.js component: ",newMsg);
+        // console.log(`user who sent the newMsg is ${userId}`);
 
-    socket.on('thanks', (data) => {
-        console.log('data: ', data);
-        // this goes to every user including you
-        io.emit('helloAll', {
-            welcomeMessage: `Hey, everyone, user ${socket.id} just sent some data: ${data.info[0]}`
-        });
-        // this goes to everyone except you
-        socket.broadcast.emit('message', 'THIS GOES TO EVERYONE EXCEPT ME!');
-        // // goes only to one user
-        // io.to(otherUserId).emit('message', 'This is a private message only for you');
-        // // emit to everyone except one user
-        // io.sockets.sockets.get(otherUserId).broadcast.emit('message', {
-        //     text: 'Oh my days Bob is so annoying'
-        // });
+        const getNewMsg = await postNewMsg(newMsg, userId);
+        // console.log(`newMsg`,getNewMsg);
 
+        // 1. do a db query to store the new chat message into the chat table!!
+        // 2. also do a db query to get info about the user (first name, last name, img) - will probably need to be a JOIN
+        // once you have your chat object, you'll want to EMIT it to EVERYONE so they can see it immediately.
+        io.sockets.emit('addChatMsg', getNewMsg);
     });
 
     socket.on('disconnect', () => {

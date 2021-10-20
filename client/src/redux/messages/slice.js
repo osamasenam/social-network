@@ -1,10 +1,10 @@
 export default function messagesReducer(state = null, action) {
     if (action.type == "messages/lastTenMessages") {
-        console.log("action.payload",action.payload);
+        console.log("adding last Ten Messages...");
         state = action.payload.dbMessages;
     } 
     else if (action.type == "messages/newMessage") {
-        console.log("adding...");
+        console.log("adding a new msg...");
         state = [...state,action.payload.dbMessage];
     } 
     return state;
@@ -13,7 +13,7 @@ export default function messagesReducer(state = null, action) {
 //////////////////////// Action Creators //////////////////////////
 
 export function lastTenMessages(dbMessages) {
-    console.log("action creator lastTenMessages", dbMessages);
+    // console.log("action creator lastTenMessages", dbMessages);
     return {
         type: "messages/lastTenMessages",
         payload: { dbMessages },
@@ -21,7 +21,7 @@ export function lastTenMessages(dbMessages) {
 }
 
 export function newMessage(dbMessage) {
-    console.log("action creator newMessage", dbMessage);
+    // console.log("action creator newMessage", dbMessage);
     return {
         type: "messages/newMessage",
         payload: { dbMessage },

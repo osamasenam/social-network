@@ -62,3 +62,19 @@ body {
 .nav-bar li a:hover {
     background-color:cadetblue;
   }
+
+.chat-messages-container {
+    height: 300px;
+    overflow-y: scroll;
+  }
+
+.chat-messages-container img {
+      width: 10%;
+      height: 10%;
+      object-fit: cover;
+      display:inline ;
+  }
+  
+.chat-messages-container p {
+    display:inline ;
+}

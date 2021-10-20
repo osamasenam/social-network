@@ -395,3 +395,33 @@ module.exports.removeFriend = function (req, res, next) {
             console.log("err in db.deleteFriendshipStatus: ", err);
         });
 };
+
+module.exports.getLastTenMsgs = function () {
+    
+    return db.getLastTenMsgs()
+        .then((data) => {
+            console.log("data",data.rows);
+            return data.rows.reverse();
+        })
+        .catch((err) => {
+            console.log("err in db.getLastTenMsgs: ", err);
+        });
+};
+
+module.exports.postNewMsg = function (newMsg, userId) {
+    
+    return db.postNewMsg(newMsg, userId)
+        .then(() => {
+            return db.getLastMsg()
+                .then((data) => {
+                    // console.log("data",data.rows);
+                    return data.rows[0];
+                })
+                .catch((err) => {
+                    console.log("err in db.getLastMsg: ", err);
+                });
+        })
+        .catch((err) => {
+            console.log("err in db.postNewMsg: ", err);
+        });
+};

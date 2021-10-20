@@ -151,3 +151,29 @@ module.exports.deleteFriend = (sender,recipient) => {
     const params = [sender, recipient];
     return db.query(q, params);  
 };
+
+module.exports.getLastTenMsgs = () => {
+    const q = `SELECT users.first, users.last, users.image, 
+        messages.sender_id, messages.message, messages.created_at 
+        FROM messages 
+        JOIN users 
+        ON (sender_id=users.id)
+        ORDER BY messages.created_at DESC LIMIT 10`;
+    return db.query(q);  
+};
+
+module.exports.postNewMsg = (newMsg, userId) => {
+    const q = `INSERT INTO messages (sender_id, message) VALUES($2,$1)`;
+    const params = [newMsg, userId];
+    return db.query(q, params);  
+};
+
+module.exports.getLastMsg = () => {
+    const q = `SELECT users.first, users.last, users.image, 
+        messages.sender_id, messages.message, messages.created_at 
+        FROM messages 
+        JOIN users 
+        ON (sender_id=users.id)
+        ORDER BY messages.created_at DESC LIMIT 1`;
+    return db.query(q);  
+};

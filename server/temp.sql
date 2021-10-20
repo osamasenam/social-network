@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS secretcodes;
 DROP TABLE IF EXISTS users;
@@ -23,3 +24,9 @@ id SERIAL PRIMARY KEY,
 sender_id INT REFERENCES users(id) NOT NULL,
 recipient_id INT REFERENCES users(id) NOT NULL,
 accepted BOOLEAN DEFAULT false);
+
+CREATE TABLE messages(
+id SERIAL PRIMARY KEY,
+sender_id INT REFERENCES users(id) NOT NULL,
+message VARCHAR NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);

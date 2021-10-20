@@ -7,7 +7,7 @@ export default function Chat() {
     const chatMessages = useSelector(state => state && state.messages);
     // this will be undefined for you right now!
     // you'll have to run your chat sql file, do your inserts, write your query and your action creator, work with your reducer and ADD it to the global state so that thennnn you can retrieve/see them!
-    console.log('here are my last 10 chat messages: ', chatMessages);
+    // console.log('here are my last 10 chat messages: ', chatMessages);
 
     // you'll want to run this useEffect everytime we get a newChatMsg
     useEffect(() => {
@@ -20,13 +20,13 @@ export default function Chat() {
 
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
-    }, []);
+    }, [chatMessages]);
 
     const keyCheck = e => {
         if (e.key === 'Enter') {
             e.preventDefault(); // this will prevent going to the next line
-            // socket.emit('my new chat message', e.target.value);
-            // e.target.value = ""; // clears input field after we click enter
+            socket.emit('my new chat message', e.target.value);
+            e.target.value = ""; // clears input field after we click enter
         }
     };
 
@@ -36,7 +36,8 @@ export default function Chat() {
             <div className='chat-messages-container' ref={elemRef}>
                 {chatMessages && chatMessages.map((msg, i) => (
                     <div key={i}>
-                        <p >{msg.sender}:{msg.text}</p>
+                        <img src={msg.image}></img>
+                        <p > {msg.first} {msg.last}: {msg.message}</p>
                     </div>  
                 ))}
             </div>

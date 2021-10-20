@@ -8,6 +8,8 @@ import { BrowserRouter, Route} from "react-router-dom";
 export default function Welcome() {
     return (
         <BrowserRouter>
+            <img src="/logo.png" alt="logo" />
+            
             <h1>Welcome!</h1>
             <Route exact path="/">
                 <Registration />
