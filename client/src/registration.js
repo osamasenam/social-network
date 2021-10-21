@@ -58,7 +58,7 @@ export class Registration extends Component {
 
     render() {
         return (
-            <section>
+            <div className='registration'>
                 { this.state.showError && <h1>Error: Please register again!</h1>}
                 <h1>Registration</h1>
                 {/* <h1>counter {this.state.counter}</h1> */}
@@ -70,7 +70,7 @@ export class Registration extends Component {
                     <button onClick={this.handleRegister}>register</button>
                 </form>
                 <Link to="/login">Already registered? Please log in</Link>
-            </section>
+            </div>
         );    
     }
 }

@@ -8,19 +8,25 @@ import { BrowserRouter, Route} from "react-router-dom";
 export default function Welcome() {
     return (
         <BrowserRouter>
-            <img src="/logo.png" alt="logo" />
-            
-            <h1>Welcome!</h1>
-            <Route exact path="/">
-                <Registration />
-            </Route>
-            <Route path="/login">
-                <Login />
-            </Route>
-            <Route path="/ResetPassword">
-                <ResetPassword />
-            </Route>
+            <div className="welcome">
+                <div className='welcome-row1'>
+                    <img className="logo" src="/logo2.jpg" alt="logo" />
+                    <img className="logo" src="/logo.gif" alt="logo" />
+                </div>
 
+                <div className='welcome-row2'>
+                    <h1>Welcome to our Stalkers Oasis!</h1>
+                    <Route exact path="/">
+                        <Registration />
+                    </Route>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/ResetPassword">
+                        <ResetPassword />
+                    </Route>
+                </div>
+            </div>
         </BrowserRouter>
     );
 }

@@ -59,7 +59,7 @@ export class Login extends Component {
 
     render() {
         return (
-            <section>
+            <div className='login'>
                 { this.state.error && <h1>Error: {this.state.error} </h1>}
                 <h1>Log in</h1>
                 <form>
@@ -69,8 +69,8 @@ export class Login extends Component {
                 </form>
                 <Link to="/">Not registered? Please sign up</Link>
                 <br></br>
-                <Link to="/ResetPassword">Forgot password? Please reset</Link>
-            </section>
+                <Link className="forgetBtn" to="/ResetPassword">Forgot password? Please reset</Link>
+            </div>
         );    
     }
 }

@@ -39,7 +39,8 @@ const { postRegister, postLogin,
     getSearch, getClickedUser,
     getFriendshipStatus, postFriendshipStatus,
     getFriends, addFriend, removeFriend,
-    getLastTenMsgs, postNewMsg } = require('./middleware');
+    getLastTenMsgs, postNewMsg,
+    getLogout } = require('./middleware');
 
 app.use(compression());
 
@@ -84,6 +85,9 @@ app.post("/getFriendship/:other", postFriendshipStatus);
 app.get("/friends", getFriends);
 app.post("/addFriend/:id", addFriend);
 app.post("/removeFriend/:id", removeFriend);
+
+// logout : clear cookies & redirect to /login page 
+app.get("/logout", getLogout);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

@@ -67,33 +67,37 @@ export default function Friends() {
             .catch(console.log());
     }
     return(
-        <>
+        <div className="friends">
             <div className="wannabeFriends">
-                <h3>These people want to be your friends</h3>
-                {wannabeFriends && wannabeFriends.map((friend, i) => (
-                    <div key={i}>
-                        <Link to={`/user/${friend.id}`}>
-                            <p >{friend.first}</p>
-                            <img src={friend.image} />
-                        </Link>
-                        <br></br>
-                        <button onClick={() => addFriendHandler(friend.id)}>Accept Friend Request</button> 
-                    </div>  
-                ))}
+                {wannabeFriends && wannabeFriends.length != 0?   <h3>You got request from</h3> : <h3>No one wanna be your friend 😏</h3> }
+                <div className="container">
+                    {wannabeFriends && wannabeFriends.map((friend, i) => (
+                        <div key={i}>
+                            <Link to={`/user/${friend.id}`}>
+                                <p >{friend.first}</p>
+                                <img src={friend.image} />
+                            </Link>
+                            <br></br>
+                            <button onClick={() => addFriendHandler(friend.id)}>Accept Friend Request</button> 
+                        </div>  
+                    ))}
+                </div>
             </div>
             <div className="currentFriends">
-                <h3>These people are currently your friends</h3>
-                {currentFriends && currentFriends.map((friend, i) => (
-                    <div key={i}>
-                        <Link to={`/user/${friend.id}`}>
-                            <p >{friend.first}</p>
-                            <img src={friend.image} />
-                        </Link>
-                        <br></br>
-                        <button onClick={() => removeFriendHandler(friend.id)}>End Friendship</button> 
-                    </div>
-                ))}
+                {currentFriends && currentFriends.length != 0?  <h3>Your current friends</h3> : <h3>No Friends you loser 🤪</h3> }
+                <div className="container">
+                    {currentFriends && currentFriends.map((friend, i) => (
+                        <div key={i}>
+                            <Link to={`/user/${friend.id}`}>
+                                <p >{friend.first}</p>
+                                <img src={friend.image} />
+                            </Link>
+                            <br></br>
+                            <button onClick={() => removeFriendHandler(friend.id)}>End Friendship</button> 
+                        </div>
+                    ))}
+                </div>
             </div>
-        </>
+        </div>
     );
 }

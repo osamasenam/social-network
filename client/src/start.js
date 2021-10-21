@@ -9,33 +9,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./redux/reducer.js";
 import { init } from "./socket.js";
 
-// import { io } from 'socket.io-client';
-
-// const socket = io.connect();
-
-// // the client is listening to the server
-// socket.on('greeting', data => {
-//     console.log('data: ', data);
-// });
-
-// // the client is listening to the server
-// socket.on('helloAll', data => {
-//     console.log('data: ', data);
-// });
-
-// // the client is listening to the server
-// socket.on('message', data => {
-//     console.log('data: ', data);
-// });
-
-// // the client sends to the server
-// socket.emit('thanks', {
-//     info: [
-//         'thanks for the message',
-//         'it was so lovely',
-//         'welcome to the neighbourhood'
-//     ]
-// });
 
 const store = createStore(
     reducer,

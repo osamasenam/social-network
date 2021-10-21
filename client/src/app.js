@@ -45,8 +45,21 @@ export default class App extends Component {
         } else {
             return(
                 <BrowserRouter>
-                    <>
-                        <img src="/logo.png" alt="logo" />
+                    <div className="app">
+                        <div className='app-row1'>
+                            <h1>Stalkers</h1>
+                            <img className="logo" src="/logo2.jpg" alt="logo" />
+                            <h1>Oasis</h1>
+                        </div>
+
+                        <ul className="nav-bar">
+                            <li><a href="/">My Profile</a></li>
+                            <li><a href="/friendsList">My Friends</a></li>
+                            <li><a href="/find-people">Find other friends</a></li>
+                            <li><a href="/chat">Chat</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+
                         <ProfilePic 
                             imgUrl={this.state.image} 
                             first={this.state.first}
@@ -60,6 +73,7 @@ export default class App extends Component {
                                 }
                             }
                         />
+
 
                         <Route exact path="/">
                             <Profile 
@@ -118,7 +132,7 @@ export default class App extends Component {
                                 }
                             }
                         />)}
-                    </>
+                    </div>
                 </BrowserRouter>
             );
         }

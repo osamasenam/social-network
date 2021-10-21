@@ -425,3 +425,8 @@ module.exports.postNewMsg = function (newMsg, userId) {
             console.log("err in db.postNewMsg: ", err);
         });
 };
+
+module.exports.getLogout = function (req, res, next) {
+    req.session = null;
+    res.redirect("/");
+}

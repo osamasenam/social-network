@@ -1,21 +1,33 @@
 body {
-    background-color:gold ;
+    background-color:#F0A500 ;
+    
 }
 
-.profile-pic  {
+* {
+    font-family:monospace;
+}
+
+/* .profile-pic  {
     margin-left: 70%;
     width: 20%;
     height: 20%;
-}
+} */
 
 .profile-pic img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.logo {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.container .profile-pic {
+.profile .profile-pic {
     margin-left: 10%;
     width: 50%;
     height: 50%;
@@ -24,19 +36,19 @@ body {
 .overlay {
     position: fixed;
     inset: 0;
-    background-color: hotpink;
+    background-color: #8E05C2;
     opacity: 0.5;
 }
 
 .modal {
     position:fixed;
-    width: 70%;
-    height: 10%;
-    background-color: gold;
+    width: 40%;
+    height: 20%;
+    background-color: #852747;
     border-radius: 10px;
-    left: 5%;
-    top: 15%;
     padding: 20px;
+    /* margin-left: 30%;
+    margin-top: 40%; */
     
 }
 
@@ -44,28 +56,32 @@ body {
     list-style-type: none;
     margin-top: 20px;
     padding: 0;
-    background-color:aquamarine ;
+    padding: 0;
+    background-color:#FFF9B2 ;
+    width: 100%;
+    text-align: center;
 }
 
 .nav-bar li {
     display: inline;
     margin-right: 5%;
-    background-color: blanchedalmond;
-    color: black;
     font-weight: 600;
   }
 
 .nav-bar li a {
     text-decoration: none;
+    color: #334756    ;
+    font-size: 20px;
   }
 
 .nav-bar li a:hover {
-    background-color:cadetblue;
+    background-color:#ECAC5D;
   }
 
 .chat-messages-container {
     height: 300px;
     overflow-y: scroll;
+    margin-bottom: 5%;
   }
 
 .chat-messages-container img {
@@ -77,4 +93,155 @@ body {
   
 .chat-messages-container p {
     display:inline ;
+    font-size: 20px;
 }
+
+.chat textarea {
+    width: 50%;
+}
+
+.find-people .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 5px;
+}
+
+.find-people .container img {
+    width: 70%;
+    height: 70%;
+}
+
+.friends {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-gap: 40%;
+    justify-items: center;
+}
+
+.friends .container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-gap: 5px;
+    justify-items: center;
+}
+
+.friends .container div {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-gap: 5px;
+    justify-items: center;
+    align-content: center;
+}
+
+.friends .container div p {
+    text-align: center;
+}
+
+.other-profile {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-gap: 5px;
+    justify-items: center;
+}
+
+.profile {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:auto;
+    justify-items:left;
+}
+
+.profile img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0;
+    margin: 0;
+}
+
+.profile .profile-pic {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.app {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:auto;
+    justify-items:center;
+}
+
+.app .profile-pic {
+    justify-self:end;
+}
+
+.welcome {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-items:center;
+}
+
+.welcome-row1 img {
+    width: 500px;
+    height: 500px;
+}
+
+.registration form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:auto;
+    justify-items:center;
+}
+
+.login form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:auto;
+    justify-items:center;
+}
+
+
+.registration, .login {
+    text-align: center;
+}
+
+.forgetBtn {
+    color: red;
+    font-weight: bold;
+}
+
+.app-row1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-gap: 5px;
+    justify-items: center;
+    align-items: center;
+    color: #3F0713;
+}
+
+.app-row1 img {
+    transition: transform .7s ease-in-out;
+}
+
+.app-row1 img:hover {
+    transform: rotate(360deg);
+}
+
+
+.welcome-row1 img:last-child {
+    display: none;  
+  }
+.welcome-row1:hover img:last-child {
+    display: block;  
+  }
+.welcome-row1:hover img:first-child  {
+    display: none;  
+  }
