@@ -400,7 +400,7 @@ module.exports.getLastTenMsgs = function () {
     
     return db.getLastTenMsgs()
         .then((data) => {
-            console.log("data",data.rows);
+            // console.log("data",data.rows);
             return data.rows.reverse();
         })
         .catch((err) => {
@@ -429,4 +429,16 @@ module.exports.postNewMsg = function (newMsg, userId) {
 module.exports.getLogout = function (req, res, next) {
     req.session = null;
     res.redirect("/");
-}
+};
+
+module.exports.getLastTenMsgsPrivate = function (otherId, userId) {
+    
+    return db.getLastTenMsgsPrivate(otherId, userId)
+        .then((data) => {
+            // console.log("data",data.rows);
+            return data.rows.reverse();
+        })
+        .catch((err) => {
+            console.log("err in db.getLastTenMsgs: ", err);
+        });
+};

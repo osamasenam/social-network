@@ -6,6 +6,7 @@ import FindPeople from "./findpeople.js";
 import OtherProfile from "./otherprofile.js";
 import Friends from "./friends.js";
 import Chat from "./chat.js";
+import PrivateChat from "./privatechat.js";
 
 
 import { BrowserRouter, Route} from "react-router-dom";
@@ -106,8 +107,12 @@ export default class App extends Component {
                             <OtherProfile />
                         </Route>
 
-                        <Route path="/chat">
+                        <Route exact path="/chat">
                             <Chat />
+                        </Route>
+
+                        <Route path="/chat/:otherUserId">
+                            <PrivateChat />
                         </Route>
 
                         {this.state.uploaderIsVisible && (<Uploader 

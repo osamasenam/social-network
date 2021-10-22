@@ -40,7 +40,8 @@ const { postRegister, postLogin,
     getFriendshipStatus, postFriendshipStatus,
     getFriends, addFriend, removeFriend,
     getLastTenMsgs, postNewMsg,
-    getLogout } = require('./middleware');
+    getLogout,
+    getLastTenMsgsPrivate } = require('./middleware');
 
 app.use(compression());
 
@@ -89,6 +90,7 @@ app.post("/removeFriend/:id", removeFriend);
 // logout : clear cookies & redirect to /login page 
 app.get("/logout", getLogout);
 
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
@@ -115,6 +117,23 @@ io.on('connection', async (socket) => {
     // console.log("lastTenMsgs", lastTenMsgs);
     // emit to all the clients/sockets already connected 
     io.sockets.emit('mostRecentMsgs', lastTenMsgs);
+
+    socket.on("otherUserId", async (otherId) => {
+        console.log("getting from db msgs between IDs", otherId, userId);
+        // const lastTenMsgsPrivate = await getLastTenMsgsPrivate(otherId, userId);
+        io.to(socket.id).emit("mostRecentMsgsPrivate","try private msg");
+    
+        // console.log("This message is coming in from chat.js component: ",newMsg);
+        // console.log(`user who sent the newMsg is ${userId}`);
+
+        // const getNewMsg = await postNewMsg(newMsg, userId);
+        // console.log(`newMsg`,getNewMsg);
+
+        // 1. do a db query to store the new chat message into the chat table!!
+        // 2. also do a db query to get info about the user (first name, last name, img) - will probably need to be a JOIN
+        // once you have your chat object, you'll want to EMIT it to EVERYONE so they can see it immediately.
+        // io.sockets.emit('addChatMsg', getNewMsg);
+    });
         
     // listening to the new message sent by a client
     socket.on("my new chat message", async (newMsg) => {

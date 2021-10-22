@@ -19,7 +19,7 @@ export default function friendsReducer(state = null, action) {
     } else if (action.type == "friends/removeFriend") {
         console.log("removing...");
         state = state.filter(friend => friend.id !== action.payload.id);
-    }
+    } 
     return state;
 }
 
@@ -47,3 +47,4 @@ export function removeFriend(id) {
         payload: { id },
     };
 }
+

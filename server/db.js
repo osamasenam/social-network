@@ -177,3 +177,15 @@ module.exports.getLastMsg = () => {
         ORDER BY messages.created_at DESC LIMIT 1`;
     return db.query(q);  
 };
+
+// module.exports.getLastTenMsgsPrivate = (otherId, userId) => {
+//     const q = `SELECT users.first, users.last, users.image, 
+//         messages.sender_id, messages.message, messages.created_at 
+//         FROM privatemessages
+        
+//         JOIN users 
+//         ON (sender_id=users.id)
+//         ORDER BY messages.created_at DESC LIMIT 10`;
+//     const params = [otherId, userId];
+//     return db.query(q, params);  
+// };
