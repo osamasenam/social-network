@@ -75,7 +75,9 @@ export default function Friends() {
                         <div key={i}>
                             <Link to={`/user/${friend.id}`}>
                                 <p >{friend.first}</p>
-                                <img src={friend.image} />
+                                <div>
+                                    <img src={friend.image} />
+                                </div>
                             </Link>
                             <br></br>
                             <button onClick={() => addFriendHandler(friend.id)}>Accept Friend Request</button> 
@@ -90,7 +92,9 @@ export default function Friends() {
                         <div key={i}>
                             <Link to={`/user/${friend.id}`}>
                                 <p >{friend.first}</p>
-                                <img src={friend.image} />
+                                <div>
+                                    <img src={friend.image} />
+                                </div>
                             </Link>
                             <br></br>
                             <button onClick={() => removeFriendHandler(friend.id)}>End Friendship</button> 
