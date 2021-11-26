@@ -12,4 +12,3 @@ Social Network – similar to Facebook
 ![alt text](https://developer-osama.herokuapp.com/social-network3.png)
 ![alt text](https://developer-osama.herokuapp.com/social-network4.png)
 ![alt text](https://developer-osama.herokuapp.com/social-network5.png)
-![alt text](https://developer-osama.herokuapp.com/social-network6.png)
